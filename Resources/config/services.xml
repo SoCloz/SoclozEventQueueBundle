@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="socloz_event_queue.listener.class">Socloz\EventQueueBundle\Event\Listener</parameter>
+        <parameter key="socloz_event_queue.worker.class">Socloz\EventQueueBundle\Worker\Worker</parameter>
+        <parameter key="socloz_event_queue.serialize.mongoodm.class">Socloz\EventQueueBundle\Serialize\MongoODM</parameter>
+        <parameter key="socloz_event_queue.serialize.mandango.class">Socloz\EventQueueBundle\Serialize\Mandango</parameter>
+    </parameters>
+    
+    <services>
+        <service id="socloz_event_queue.listener" class="%socloz_event_queue.listener.class%" abstract="true">
+            <argument/>
+            <argument type="service" id="socloz_event_queue.queue" on-invalid="null" />
+            <argument/>
+            <argument type="service" id="logger" on-invalid="null" />
+        </service>
+        <service id="socloz_event_queue.worker" class="%socloz_event_queue.worker.class%">
+            <argument>%socloz_event_queue.forward%</argument>
+            <argument type="service" id="event_dispatcher" on-invalid="null" />
+            <argument type="service" id="socloz_event_queue.queue" on-invalid="null" />
+            <argument/>
+            <argument type="service" id="logger" on-invalid="null" />
+        </service>
+        <service id="socloz_event_queue.serialize.mongoodm" class="%socloz_event_queue.serialize.mongoodm.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" on-invalid="null" />
+        </service>
+        <service id="socloz_event_queue.serialize.mandango" class="%socloz_event_queue.serialize.mandango.class%">
+            <argument type="service" id="mandango" on-invalid="null" />
+        </service>
+    </services>
+</container>
