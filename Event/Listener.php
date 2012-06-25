@@ -1,19 +1,19 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright CloseToMe 2011/2012
  */
 
 namespace Socloz\EventQueueBundle\Event;
 
 use Socloz\EventQueueBundle\Queue\Job;
 /**
- * Description of Listener
+ * The event listener
  *
  * @author jfb
  */
-class Listener {
+class Listener
+{
 
     protected $event;
     protected $queue;
@@ -21,12 +21,12 @@ class Listener {
     protected $logger;
     
     /**
-     * 
      * @param string $event 
      * @param Socloz\EventQueue\Queue\QueueInterface $queue 
      * @param Socloz\EventQueue\Serialize\SerializeInterface $serialize
      */
-    public function __construct($event, $queue, $serialize, $logger) {
+    public function __construct($event, $queue, $serialize, $logger)
+    {
         $this->event = $event;
         $this->queue = $queue;
         $this->serialize = $serialize;
@@ -34,10 +34,12 @@ class Listener {
     }
     
     /**
-     *
+     * Forwards events to the queue
+     * 
      * @param Symfony\Component\EventDispatcher\Event $event 
      */
-    public function forwardEvent($event) {
+    public function forwardEvent($event)
+    {
         $data = $this->serialize->serialize($event);
         $this->queue->put(new Job(null, $this->event, $data));
         $event->stopPropagation();

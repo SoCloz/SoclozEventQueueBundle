@@ -1,18 +1,18 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright CloseToMe 2011/2012
  */
 
 namespace Socloz\EventQueueBundle\Queue;
 
 /**
- * Description of Interface
+ * Interface for queue wrappers
  *
  * @author jfb
  */
-interface QueueInterface {
+interface QueueInterface
+{
 
     public function put($job);
     

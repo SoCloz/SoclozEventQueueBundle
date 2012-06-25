@@ -1,8 +1,18 @@
 <?php
 
+/*
+ * Copyright CloseToMe 2011/2012
+ */
+
 namespace Socloz\EventQueueBundle\Worker;
 
-class Worker {
+/**
+ * Worker
+ *
+ * @author jfb
+ */
+class Worker
+{
     
     protected $calls;
     protected $queue;
@@ -10,13 +20,15 @@ class Worker {
     protected $logger;
     
     /**
-     *
+     * Builds the list of application listeners
+     * 
      * @param Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
      * @param Socloz\EventQueue\Queue\QueueInterface $queue
      * @param Socloz\EventQueue\Serialize\SerializeInterface $serialize
      * @param array $calls 
      */
-    public function __construct($events, $dispatcher, $queue, $serialize, $logger) {
+    public function __construct($events, $dispatcher, $queue, $serialize, $logger)
+    {
         $this->calls = array();
         foreach ($events as $event) {
             $listeners = $dispatcher->getListeners($event);
@@ -32,7 +44,11 @@ class Worker {
         $this->logger = $logger;
     }
     
-    public function work() {
+    /**
+     * Fetches job, deserializes them and call listeners 
+     */
+    public function work()
+    {
         $job = $this->queue->get();
         $this->logger->debug(sprintf('SoclozEventQueue:Worker - Received event %s : %s', $job->getEvent(), json_encode($job->getData())));
         $calls = isset($this->calls[$job->getEvent()]) ? $this->calls[$job->getEvent()] : null;

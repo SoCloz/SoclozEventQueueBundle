@@ -1,14 +1,13 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright CloseToMe 2011/2012
  */
 
 namespace Socloz\EventQueueBundle\Serialize;
 
 /**
- * Description of Reflexion
+ * Mandango serializer
  *
  * @author jfb
  */

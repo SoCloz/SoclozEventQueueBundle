@@ -7,7 +7,7 @@
 namespace Socloz\EventQueueBundle\Queue;
 
 /**
- * Description of Job
+ * A job sent to the queue
  *
  * @author jfb
  */

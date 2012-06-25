@@ -1,14 +1,13 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright CloseToMe 2011/2012
  */
 
 namespace Socloz\EventQueueBundle\Queue;
 
 /**
- * Description of Beanstalkd
+ * Beanstalkd wrapper
  *
  * @author jfb
  */
@@ -19,7 +18,6 @@ class Beanstalkd implements QueueInterface
     protected $tube;
     
     /**
-     *
      * @param \Socket_Beanstalk $beanstalk
      * @param type $tube 
      */
