@@ -29,32 +29,40 @@ Setup
 
 * install Socket_Beanstalk (http://github.com/davidpersson/beanstalk) in your vendors directory and configure autoload
 
-    $loader->registerPrefixes(array(
-        [...]
-        'Socket_'          => __DIR__.'/../vendor/beanstalk/src',
-    ));
+```
+$loader->registerPrefixes(array(
+    [...]
+    'Socket_'          => __DIR__.'/../vendor/beanstalk/src',
+));
+```
 
 * configure the service
 
-    socloz_event_queue:
-        queue_type: beanstalkd
-        forward: [ my.event.name, my.event.name ]
-        serialize: mongoodm
-        beanstalkd:
-            host: 127.0.0.1
-            tube: event_queue
+```
+socloz_event_queue:
+    queue_type: beanstalkd
+    forward: [ my.event.name, my.event.name ]
+    serialize: mongoodm
+    beanstalkd:
+        host: 127.0.0.1
+        tube: event_queue
+```
 
 Other possible configuration options (with default values) :
 
-    socloz_event_queue:
-        beanstalkd:
-            port: 11300
-            persistent: true
-            timeout: 1
+```
+socloz_event_queue:
+    beanstalkd:
+        port: 11300
+        persistent: true
+        timeout: 1
+```
 
 * start the worker (a process management daemon, like supervisord is recommended) :
 
-    app/console socloz:event_queue:worker [stop_after]
+```
+app/console socloz:event_queue:worker [stop_after]
+```
 
 If used, `stop_after` enables to worker to stop after a certain number of seconds (warning : the test is done *after* a job has been received).
 
@@ -82,39 +90,45 @@ Using ReflectionClass::newInstanceWithoutConstructor would help, but has only be
 
 Example event class :
 
-    <?php
-    
-    namespace Socloz\APIBundle\Event\Event;
-    
-    use Symfony\Component\EventDispatcher\Event;
-    
-    class CategoryDeleteEvent extends Event {
-    
-        protected $category;
-        
-        public function __construct($category) {
-            $this->category = $category;
-        }
-        
-        public function getCategory() {
-            return $this->category;
-        }
+```
+<?php
+
+namespace Socloz\APIBundle\Event\Event;
+
+use Symfony\Component\EventDispatcher\Event;
+
+class CategoryDeleteEvent extends Event {
+
+    protected $category;
+
+    public function __construct($category) {
+        $this->category = $category;
     }
+
+    public function getCategory() {
+        return $this->category;
+    }
+}
+```
 
 If you need a serializer, it needs to implement the `Socloz\EventQueueBundle\Serialize\SerializeInterface` interface.
 
-    interface SerializeInterface {
-        
-        public function serialize($event);
-        
-        public function deserialize($data);
-        
-    }
+```
+interface SerializeInterface {
+
+    public function serialize($event);
+
+    public function deserialize($data);
+
+}
+```
 
 It then needs to be registered as a service named `socloz_event_queue.serialize.your_serializer_name` and configured :
 
-    socloz_event_queue:
-        serialize: your_serializer_name
+```
+socloz_event_queue:
+    serialize: your_serializer_name
+```
 
 
 Queue
@@ -122,15 +136,17 @@ Queue
 
 If you want to use another transport (RabbitMQ, Zer0MQ, Gearman, ...), you need to implement the `Socloz\EventQueueBundle\Queue\QueueInterface` interface.
 
-    interface QueueInterface {
-    
-        public function put($job);
-        
-        public function get();
-        
-        public function delete($job);
-        
-    }
+```
+interface QueueInterface {
+
+    public function put($job);
+
+    public function get();
+
+    public function delete($job);
+
+}
+```
 
 `get` is a blocking call. `delete` is only required if `get` does not remove jobs from the queue.
 
