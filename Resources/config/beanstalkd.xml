@@ -17,10 +17,10 @@
     <services>
         <service id="socloz_event_queue.beanstalkd" class="%socloz_event_queue.beanstalkd.class%">
             <argument type="collection">
-                <argument>%socloz_event_queue.beanstalkd.host%</argument>
-                <argument>%socloz_event_queue.beanstalkd.port%</argument>
-                <argument>%socloz_event_queue.beanstalkd.persistent%</argument>
-                <argument>%socloz_event_queue.beanstalkd.timeout%</argument>
+                <argument key="host">%socloz_event_queue.beanstalkd.host%</argument>
+                <argument key="port">%socloz_event_queue.beanstalkd.port%</argument>
+                <argument key="persistent">%socloz_event_queue.beanstalkd.persistent%</argument>
+                <argument key="timeout">%socloz_event_queue.beanstalkd.timeout%</argument>
             </argument>
             <call method="connect">
             </call>

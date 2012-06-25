@@ -29,15 +29,15 @@ class SoclozEventQueueExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         
         if (isset($config['queue_type'])) {
-            if (isset($config[$config['queue_type']])) {
-                foreach ($config[$config['queue_type']] as $key => $value) {
-                    $container->setParameter(sprintf('socloz_event_queue.%s.%s', $config['queue_type'], $key), $value);
-                }
-            }
             switch ($config['queue_type']) {
                 case 'beanstalkd':
                     $loader->load("beanstalkd.xml");
                     break;
+            }
+            if (isset($config[$config['queue_type']])) {
+                foreach ($config[$config['queue_type']] as $key => $value) {
+                    $container->setParameter(sprintf('socloz_event_queue.%s.%s', $config['queue_type'], $key), $value);
+                }
             }
         }
 
