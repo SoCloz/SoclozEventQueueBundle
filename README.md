@@ -73,8 +73,8 @@ Events need to be serialized before being sent. Objects coming from the ORM/ODM 
 
 For now, 2 basic serializers exist :
 
-* Mandango,
-* MongoDB ODM.
+* Mandango (`serialize: mandango`),
+* MongoDB ODM (`serialize: mongoodm`).
 
 They assume :
 
