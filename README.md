@@ -64,7 +64,7 @@ socloz_event_queue:
 app/console socloz:event_queue:worker [stop_after]
 ```
 
-If used, `stop_after` enables to worker to stop after a certain number of seconds (warning : the test is done *after* a job has been received).
+If used, `stop_after` enables to worker to stop after a certain number of seconds (warning : the test is done *after* a job has been executed).
 
 Serializers
 -----------
@@ -78,15 +78,15 @@ For now, 2 basic serializers exist :
 
 They assume :
 
-* that a getId` method exists for ORM/ODM objects,
+* that a `getId` method exists for ORM/ODM objects,
 * that all objects having a getId method come from the ORM/ODM,
 * that objects have been saved (the remote listener instantiates objects from the DB),
 * that the events can be created using the constructor, and only the constructor,
 * that constructor parameters have the same name as the attributes.
 
-I did not have time/wasn't able to find a solution for those. Feel free to contribute.
+I did not have time/wasn't able to find a solution for those. Feel free to contribute better serializers !
 
-Using ReflectionClass::newInstanceWithoutConstructor would help, but has only be added in 5.4. Class specific serializers, built during warm-up, would also improve performance if you need to forward a lot of events.
+Using `ReflectionClass::newInstanceWithoutConstructor` would help, but has only be added in 5.4. Class specific serializers, built during warm-up, would also improve performance if you need to forward a lot of events.
 
 Example event class :
 
@@ -152,10 +152,11 @@ interface QueueInterface {
 
 The transport class should be registered as a service named `socloz_event_queue.queue`.
 
-Roadmap
+TODO
 -------
 
 * Serializers I wouldn't be ashamed of
+* Beanstalkd timeout & priority configuration
 
 License
 -------
