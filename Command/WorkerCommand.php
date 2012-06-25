@@ -37,6 +37,6 @@ class WorkerCommand extends BaseCommand
         $end = time() + $stopAfter;
         do {
             $worker->work();
-        } while ($stopAfter && time() < $end);
+        } while (!$stopAfter || time() < $end);
     }
 }
