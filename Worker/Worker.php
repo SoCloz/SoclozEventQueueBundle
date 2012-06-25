@@ -38,8 +38,10 @@ class Worker {
         $calls = isset($this->calls[$job->getEvent()]) ? $this->calls[$job->getEvent()] : null;
         if ($calls) {
             $eventObj = $this->serialize->deserialize($job->getData());
-            foreach ($calls as $call) {
-                $call->call($eventObj);
+            if ($eventObj) {
+                foreach ($calls as $call) {
+                    $call->call($eventObj);
+                }
             }
         }
         $this->queue->delete($job);
