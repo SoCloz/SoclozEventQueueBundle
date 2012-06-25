@@ -14,7 +14,7 @@ The *listener* :
 
 The *worker* :
 * builds the list of application listeners for the configured event,
-* listens to the queue and deserializes events received,
+* listens to the queue and deserializes received events,
 * executes the listeners.
 
 Dependencies
@@ -79,14 +79,14 @@ For now, 2 basic serializers exist :
 They assume :
 
 * that a `getId` method exists for ORM/ODM objects,
-* that all objects having a getId method come from the ORM/ODM,
-* that objects have been saved (the remote listener instantiates objects from the DB),
-* that the events can be created using the constructor, and only the constructor,
-* that constructor parameters have the same name as the attributes.
+* that all objects having a `getId` method come from the ORM/ODM,
+* that objects have been saved before dispatching the event (the remote listener instantiates objects from the DB),
+* that events can be created using the constructor without other method calls,
+* that constructor parameters have the same name as class attributes.
 
 I did not have time/wasn't able to find a solution for those. Feel free to contribute better serializers !
 
-Using `ReflectionClass::newInstanceWithoutConstructor` would help, but has only be added in 5.4. Class specific serializers, built during warm-up, would also improve performance if you need to forward a lot of events.
+ `ReflectionClass::newInstanceWithoutConstructor` would help, but has only be added in 5.4. Class specific serializers, built during warm-up, would also improve performance if you need to forward a lot of events.
 
 Example event class :
 
