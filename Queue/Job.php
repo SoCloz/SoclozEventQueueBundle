@@ -11,36 +11,18 @@ namespace Socloz\EventQueueBundle\Queue;
  *
  * @author jfb
  */
-class Job
+class Job extends \Pheanstalk_Job
 {
-
-    protected $id;
     protected $event;
-    protected $data;
-    
-    public function __construct($id, $event, $data)
+
+    public function __contruct($id, $data, $event)
     {
-        $this->id = $id;
+        parent::__construc($id, $data);
         $this->event = $event;
-        $this->data = $data;
     }
-    
-    public function getId()
-    {
-        return $this->id;
-        
-    }
-    
+
     public function getEvent()
     {
         return $this->event;
-        
     }
-    
-    public function getData()
-    {
-        return $this->data;
-        
-    }
-
 }

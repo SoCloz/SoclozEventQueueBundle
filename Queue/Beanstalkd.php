@@ -27,24 +27,24 @@ class Beanstalkd implements QueueInterface
         $this->tube = $tube;
     }
 
-    public function put($job)
+    public function put($event, $data)
     {
-        $job = json_encode(array($job->getEvent(), $job->getData()));
+        $job = json_encode(array($event, $data));
         $this->beanstalk->useTube($this->tube);
         // FIXME : fix priority & ttl
-        $this->beanstalk->put(20, 0, 3600, $job);
+        $this->beanstalk->put($job, 20, 0, 3600);
     }
     
     public function get()
     {
         $this->beanstalk->watch($this->tube);
         $job = $this->beanstalk->reserve();
-        list($event, $data) = @json_decode($job['body'], true);
-        return new Job($job['id'], $event, $data);
+        list($event, $data) = @json_decode($job->getData(), true);
+        return new Job($job->getId(), $data, $event);
     }
     
     public function delete($job)
     {
-        $this->beanstalk->delete($job->getId());
+        $this->beanstalk->delete($job);
     }
 }

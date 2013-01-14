@@ -6,7 +6,6 @@
 
 namespace Socloz\EventQueueBundle\Event;
 
-use Socloz\EventQueueBundle\Queue\Job;
 /**
  * The event listener
  *
@@ -41,7 +40,7 @@ class Listener
     public function forwardEvent($event)
     {
         $data = $this->serialize->serialize($event);
-        $this->queue->put(new Job(null, $this->event, $data));
+        $this->queue->put($this->event, $data);
         $event->stopPropagation();
     }
 

@@ -14,7 +14,7 @@ namespace Socloz\EventQueueBundle\Queue;
 interface QueueInterface
 {
 
-    public function put($job);
+    public function put($event, $data);
     
     public function get();
 
