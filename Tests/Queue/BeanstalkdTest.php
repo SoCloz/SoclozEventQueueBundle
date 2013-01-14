@@ -6,11 +6,10 @@ use Socloz\EventQueueBundle\Queue\Beanstalkd;
 class BeanstalkdTest extends \PHPUnit_Framework_TestCase
 {
     private static $tube = 'socloz_event_queue_test';
-    private static $queue;
 
     public function testPut()
     {
-        self::$queue = $queue = new Beanstalkd(new \Pheanstalk('localhost', 11300, 1), self::$tube);
+        $queue = $this->getQueue();
         $data = array(
             'event' => 'event-' . rand(),
             'data' => 'data-' . rand(),
@@ -25,7 +24,7 @@ class BeanstalkdTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet(array $data)
     {
-        $job = self::$queue->get();
+        $job = $this->getQueue()->get();
         $this->assertEquals($data['event'], $job->getEvent());
         $this->assertEquals($data['data'], $job->getData());
         return $job;
@@ -37,6 +36,11 @@ class BeanstalkdTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete($job)
     {
-        self::$queue->delete($job);
+        $this->getQueue()->delete($job);
+    }
+
+    private function getQueue()
+    {
+        return new Beanstalkd(new \Pheanstalk('localhost', 11300, 1), self::$tube);
     }
 }

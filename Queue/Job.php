@@ -15,9 +15,9 @@ class Job extends \Pheanstalk_Job
 {
     protected $event;
 
-    public function __contruct($id, $data, $event)
+    public function __construct($id, $data, $event)
     {
-        parent::__construc($id, $data);
+        parent::__construct($id, $data);
         $this->event = $event;
     }
 
