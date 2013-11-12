@@ -41,6 +41,6 @@ class BeanstalkdTest extends \PHPUnit_Framework_TestCase
 
     private function getQueue()
     {
-        return new Beanstalkd(new \Pheanstalk('localhost', 11300, 1), self::$tube);
+        return new Beanstalkd(new \Pheanstalk_Pheanstalk('localhost', 11300, 1), self::$tube);
     }
 }
