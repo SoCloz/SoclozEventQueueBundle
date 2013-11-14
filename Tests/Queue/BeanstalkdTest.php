@@ -2,6 +2,7 @@
 
 namespace Socloz\EventQueueBundle\Tests\Queue;
 use Socloz\EventQueueBundle\Queue\Beanstalkd;
+use Socloz\EventQueueBundle\Queue\Job;
 
 class BeanstalkdTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,6 +42,41 @@ class BeanstalkdTest extends \PHPUnit_Framework_TestCase
 
     private function getQueue()
     {
-        return new Beanstalkd(new \Pheanstalk_Pheanstalk('localhost', 11300, 1), self::$tube);
+        static $queueStub;
+        if (!$queueStub) {
+            $queueStub = new BeanstalkStub();
+        }
+        return new Beanstalkd($queueStub, self::$tube);
+    }
+}
+
+
+class BeanstalkStub
+{
+    static $job;
+
+    public function useTube($domain)
+    {
+    }
+
+    public function watch($domain)
+    {
+    }
+
+    public function put($job, $priority, $delay, $timeout)
+    {
+        self::$job = new Job(uniqid(), $job, null);
+    }
+
+    public function reserve()
+    {
+        return self::$job;
+    }
+
+    public function delete($job)
+    {
+        if ($job->getId() != self::$job->getId()) {
+            throw new \Exception("cannot delete");
+        }
     }
 }
