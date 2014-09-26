@@ -11,7 +11,7 @@ namespace Socloz\EventQueueBundle\Queue;
  *
  * @author jfb
  */
-class Job extends \Pheanstalk_Job
+class Job extends \Pheanstalk\Job
 {
     protected $event;
 
