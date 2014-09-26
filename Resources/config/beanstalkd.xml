@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="socloz_event_queue.queue.class">Socloz\EventQueueBundle\Queue\Beanstalkd</parameter>
 
-        <parameter key="socloz_event_queue.beanstalkd.class">Pheanstalk_Pheanstalk</parameter>
+        <parameter key="socloz_event_queue.beanstalkd.class">Pheanstalk\Pheanstalk</parameter>
         <parameter key="socloz_event_queue.beanstalkd.host">localhost</parameter>
         <parameter key="socloz_event_queue.beanstalkd.port">11300</parameter>
         <parameter key="socloz_event_queue.beanstalkd.persistent">true</parameter>
