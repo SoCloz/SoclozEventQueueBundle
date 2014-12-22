@@ -29,7 +29,7 @@ Setup
 
 * install Socket_Beanstalk (http://github.com/davidpersson/beanstalk) in your vendors directory and configure autoload
 
-```
+```php
 $loader->registerPrefixes(array(
     [...]
     'Socket_'          => __DIR__.'/../vendor/beanstalk/src',
@@ -38,7 +38,7 @@ $loader->registerPrefixes(array(
 
 * configure the service
 
-```
+```yaml
 socloz_event_queue:
     queue_type: beanstalkd
     forward: [ my.event.name, my.event.name ]
@@ -50,7 +50,7 @@ socloz_event_queue:
 
 Other possible configuration options (with default values) :
 
-```
+```yaml
 socloz_event_queue:
     beanstalkd:
         port: 11300
@@ -60,8 +60,8 @@ socloz_event_queue:
 
 * start the worker (a process management daemon, like supervisord is recommended) :
 
-```
-app/console socloz:event_queue:worker [stop_after]
+```bash
+$ app/console socloz:event_queue:worker [stop_after]
 ```
 
 If used, `stop_after` enables to worker to stop after a certain number of seconds (warning : the test is done *after* a job has been executed).
@@ -90,22 +90,24 @@ I did not have time/wasn't able to find a solution for those. Feel free to contr
 
 Example event class :
 
-```
+```php
 <?php
 
 namespace Socloz\APIBundle\Event\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-class CategoryDeleteEvent extends Event {
-
+class CategoryDeleteEvent extends Event
+{
     protected $category;
 
-    public function __construct($category) {
+    public function __construct($category)
+    {
         $this->category = $category;
     }
 
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
 }
@@ -113,38 +115,35 @@ class CategoryDeleteEvent extends Event {
 
 If you need a serializer, it needs to implement the `Socloz\EventQueueBundle\Serialize\SerializeInterface` interface.
 
-```
-interface SerializeInterface {
-
+```php
+interface SerializeInterface
+{
     public function serialize($event);
 
     public function deserialize($data);
-
 }
 ```
 
 It then needs to be registered as a service named `socloz_event_queue.serialize.your_serializer_name` and configured :
 
-```
+```php
 socloz_event_queue:
     serialize: your_serializer_name
 ```
-
 
 Queue
 -----
 
 If you want to use another transport (RabbitMQ, Zer0MQ, Gearman, ...), you need to implement the `Socloz\EventQueueBundle\Queue\QueueInterface` interface.
 
-```
-interface QueueInterface {
-
+```php
+interface QueueInterface
+{
     public function put($job);
 
     public function get();
 
     public function delete($job);
-
 }
 ```
 
